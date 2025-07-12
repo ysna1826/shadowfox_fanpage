@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>RCB Moment</title>
+  <link rel="stylesheet" href="styles.css" />
+  <style>
+    .carousel {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 2rem;
+      margin-bottom: 2rem;
+    }
+    .carousel-img {
+      width: 400px;
+      max-width: 90vw;
+      height: 260px;
+      object-fit: cover;
+      border-radius: 15px;
+      box-shadow: 0 4px 16px rgba(196,30,58,0.13);
+      transition: box-shadow 0.3s;
+    }
+    .carousel-btn {
+      background: #C41E3A;
+      color: #fff;
+      border: none;
+      border-radius: 50%;
+      width: 40px;
+      height: 40px;
+      font-size: 1.5rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background 0.2s;
+    }
+    .carousel-btn:disabled {
+      background: #eee;
+      color: #aaa;
+      cursor: not-allowed;
+    }
+    .carousel-indicator {
+      text-align: center;
+      margin-bottom: 1.5rem;
+      color: #C41E3A;
+      font-weight: 600;
+      letter-spacing: 1px;
+    }
+    .moment-content-box {
+      background: #fffbe7;
+      border-radius: 15px;
+      padding: 2rem 2.5rem;
+      box-shadow: 0 6px 32px rgba(196,30,58,0.08);
+      max-width: 700px;
+      margin: 0 auto 2rem auto;
+    }
+    .moment-content-box h1 {
+      color: #C41E3A;
+      margin-bottom: 1.2rem;
+      font-size: 2.1rem;
+      text-align: center;
+    }
+    .moment-content-box p {
+      font-size: 1.15rem;
+      color: #333;
+      text-align: center;
+      margin-bottom: 0.5rem;
+    }
+    .back-link {
+      display: inline-block;
+      margin-top: 2rem;
+      color: #C41E3A;
+      text-decoration: none;
+      font-weight: 600;
+      transition: color 0.2s;
+    }
+    .back-link:hover {
+      color: #FFD700;
+    }
+  </style>
+</head>
+<body>
+  <div class="container" id="moment-content">
+    <!-- Content will be loaded by JS -->
+  </div>
+  <script src="moment.js"></script>
+  <script>
+    // Carousel logic (runs after moment.js populates the content)
+    window.addEventListener('DOMContentLoaded', function() {
+      const carousel = document.querySelector('.carousel');
+      if (!carousel) return;
+      const images = Array.from(carousel.querySelectorAll('img'));
+      let current = 0;
+      const indicator = document.querySelector('.carousel-indicator');
+      function showImage(idx) {
+        images.forEach((img, i) => {
+          img.style.display = i === idx ? 'block' : 'none';
+        });
+        if (indicator) indicator.textContent = `Image ${idx+1} of ${images.length}`;
+        carousel.querySelector('.carousel-btn.prev').disabled = idx === 0;
+        carousel.querySelector('.carousel-btn.next').disabled = idx === images.length-1;
+      }
+      carousel.querySelector('.carousel-btn.prev').onclick = () => {
+        if (current > 0) { current--; showImage(current); }
+      };
+      carousel.querySelector('.carousel-btn.next').onclick = () => {
+        if (current < images.length-1) { current++; showImage(current); }
+      };
+      showImage(current);
+    });
+  </script>
+</body>
+</html> 
